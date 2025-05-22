@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/tutorial.css">
+    <title>Sistema de Votación Electrónica - México 2025</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+
+</head>
+<body>
+    <!-- Elementos flotantes decorativos -->
+    <div class="floating-elements">
+        <div class="floating-circle"></div>
+        <div class="floating-circle"></div>
+        <div class="floating-circle"></div>
+    </div>
+
+<!-- Tutorial Modal -->
+<div class="modal fade" id="tutorialModal" tabindex="-1" aria-labelledby="tutorialModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content tutorial-modal">
+            <div class="modal-header border-0">
+                <h5 class="modal-title" id="tutorialModalLabel">
+                    <i class="bi bi-question-circle me-2"></i>
+                    ¿Cómo funciona el sistema de votación?
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="tutorial-steps">
+                    <div class="tutorial-step">
+                        <div class="tutorial-icon">
+                            <i class="bi bi-person-vcard-fill"></i>
+                        </div>
+                        <div class="tutorial-content">
+                            <h6>Paso 1: Registro</h6>
+                            <p>Ingresa tu nombre completo y tu CURP de 18 caracteres para identificarte como votante.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tutorial-step">
+                        <div class="tutorial-icon">
+                            <i class="bi bi-hand-index-thumb-fill"></i>
+                        </div>
+                        <div class="tutorial-content">
+                            <h6>Paso 2: Selección</h6>
+                            <p>Elige tu candidato preferido haciendo clic en su tarjeta. Verás una marca de confirmación cuando esté seleccionado.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tutorial-step">
+                        <div class="tutorial-icon">
+                            <i class="bi bi-shield-fill-check"></i>
+                        </div>
+                        <div class="tutorial-content">
+                            <h6>Paso 3: Confirmación</h6>
+                            <p>Revisa tus datos y tu selección antes de confirmar tu voto. Una vez confirmado, no podrás cambiarlo.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tutorial-footer">
+                    <div class="alert alert-info mb-0">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <strong>Importante:</strong> Tu voto es secreto y seguro. Los datos se procesan de forma confidencial.
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-primary-custom" data-bs-dismiss="modal">
+                    <i class="bi bi-check-lg me-2"></i>
+                    Entendido, comenzar a votar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="main-container">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10 col-xl-8">
+                    <div class="voting-card">
+                        <!-- Header -->
+                        <div class="header-section">
+                            <div class="header-content">
+                                <div class="logo-icon">
+                                    <i class="bi bi-check-circle-fill" style="font-size: 2rem;"></i>
+                                </div>
+                                <h1 class="main-title">Sistema de Votación Electrónica</h1>
+                                <p class="subtitle">Elecciones Presidenciales - México 2025</p>
+                            </div>
+                        </div>
+
+                        <!-- Indicador de pasos -->
+                        <div class="step-indicator">
+                            <div class="progress-container">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="progressFill"></div>
+                                </div>
+                                <div class="step-labels">
+                                    <div class="step-label active" id="stepLabel1">
+                                        <div class="step-number">1</div>
+                                        <span>Registro</span>
+                                    </div>
+                                    <div class="step-label" id="stepLabel2">
+                                        <div class="step-number">2</div>
+                                        <span>Votación</span>
+                                    </div>
+                                    <div class="step-label" id="stepLabel3">
+                                        <div class="step-number">3</div>
+                                        <span>Confirmación</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Paso 1: Registro -->
+                        <div id="step1" class="content-section">
+                            <h2 class="section-title">
+                                <i class="bi bi-person-plus"></i>
+                                Registro de Votante
+                            </h2>
+                            <p class="section-subtitle">Por favor, ingrese sus datos personales para proceder con la votación</p>
+                            
+                            <form id="voterForm">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="fullName" placeholder="Nombre completo" required>
+                                    <label for="fullName">Nombre Completo</label>
+                                    <div class="invalid-feedback" id="fullNameError">
+                                        Por favor ingrese su nombre completo.
+                                    </div>
+                                </div>
+                                
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="curp" placeholder="CURP" maxlength="18" required>
+                                    <label for="curp">CURP (18 caracteres)</label>
+                                    <div class="invalid-feedback" id="curpError">
+                                        La CURP debe tener exactamente 18 caracteres alfanuméricos.
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex justify-content-end mt-4">
+                                    <button type="button" class="btn btn-custom btn-primary-custom" id="nextToStep2">
+                                        Continuar
+                                        <i class="bi bi-arrow-right ms-2"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Paso 2: Selección de candidato -->
+                        <div id="step2" class="content-section hidden">
+                            <h2 class="section-title">
+                                <i class="bi bi-ballot"></i>
+                                Seleccione su Candidato
+                            </h2>
+                            <p class="section-subtitle">Elija uno de los siguientes candidatos para emitir su voto</p>
+                            
+                            <div class="candidates-grid">
+                                <div class="candidate-card" data-candidate="Andres_Lopez">
+                                    <div class="candidate-content">
+                                        <div class="candidate-avatar">
+                                            <img src="https://diariocorreo.com.ec/public/img/uploads/2024-01-31--11-36-42/thumbs_b_c_53344ab1d232c524fcd0d25343270934jpg" alt="Andres_Lopez" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                                        </div>
+                                        <div class="candidate-info">
+                                            <h4>Andrés Manuel López Obrador</h4>
+                                            <p>Candidato Presidencial</p>
+                                            <p><small class="text-muted">Partido Democrático, alianza "Juntos Haremos Historia"</small></p>
+                                        </div>
+                                    </div>
+                                    <div class="selection-indicator">
+                                        <i class="bi bi-check-lg"></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="candidate-card" data-candidate="Enrique_Pena">
+                                    <div class="candidate-content">
+                                        <div class="candidate-avatar">
+                                            <img src="https://oem.com.mx/elsoldelbajio/img/15810936/1504339795/BASE_LANDSCAPE/480/image.webp" alt="Enrique_Pena" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                                        </div>
+                                        <div class="candidate-info">
+                                            <h4>Enrique Peña Nieto</h4>
+                                            <p>Candidato Presidencial</p>
+                                            <p><small class="text-muted">Alianza  "Compromiso por México"</small></p>
+                                        </div>
+                                    </div>
+                                    <div class="selection-indicator">
+                                        <i class="bi bi-check-lg"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-custom btn-secondary-custom" id="backToStep1">
+                                    <i class="bi bi-arrow-left me-2"></i>
+                                    Atrás
+                                </button>
+                                <button type="button" class="btn btn-custom btn-primary-custom" id="nextToStep3">
+                                    Continuar
+                                    <i class="bi bi-arrow-right ms-2"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Paso 3: Confirmación -->
+                        <div id="step3" class="content-section hidden">
+                            <h2 class="section-title">
+                                <i class="bi bi-check-square"></i>
+                                Confirmar Voto
+                            </h2>
+                            <p class="section-subtitle">Por favor revise los detalles de su votación antes de confirmar</p>
+                            
+                            <div class="confirmation-section">
+                                <div class="confirmation-item">
+                                    <span class="confirmation-label">Nombre:</span>
+                                    <span class="confirmation-value" id="confirmName"></span>
+                                </div>
+                                <div class="confirmation-item">
+                                    <span class="confirmation-label">CURP:</span>
+                                    <span class="confirmation-value" id="confirmCurp"></span>
+                                </div>
+                                <div class="confirmation-item">
+                                    <span class="confirmation-label">Candidato seleccionado:</span>
+                                    <span class="confirmation-value" id="confirmCandidate"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-custom btn-secondary-custom" id="backToStep2">
+                                    <i class="bi bi-arrow-left me-2"></i>
+                                    Modificar
+                                </button>
+                                <button type="button" class="btn btn-custom btn-primary-custom" id="submitVote">
+                                    <i class="bi bi-check-circle me-2"></i>
+                                    Confirmar y Votar
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Confirmación del voto -->
+                        <div id="confirmation" class="success-section hidden">
+                            <div class="success-icon">
+                                <i class="bi bi-check-circle-fill text-white" style="font-size: 3rem;"></i>
+                            </div>
+                            <h2 class="text-success mb-3">¡Voto Registrado con Éxito!</h2>
+                            <p class="text-muted mb-4">Gracias por participar en las elecciones presidenciales de México 2025.</p>
+                            <button type="button" class="btn btn-custom btn-primary-custom" id="backToStart">
+                                <i class="bi bi-house me-2"></i>
+                                Volver al Inicio
+                            </button>
+                        </div>
+
+                        <!-- Botón para mostrar resultados -->
+                        <div class="content-section" id="resultsButton">
+                            <div class="text-center">
+                                <button type="button" class="btn btn-custom btn-secondary-custom" id="showResults">
+                                    <i class="bi bi-bar-chart me-2"></i>
+                                    Mostrar Resultados (Demo)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Resultados -->
+                        <div id="results" class="results-section hidden">
+                            <h2 class="section-title text-center">
+                                <i class="bi bi-graph-up"></i>
+                                Resultados de la Votación
+                            </h2>
+                            <p class="text-center text-muted mb-4">Conteo actual de votos para las elecciones presidenciales</p>
+                            
+                            <div class="results-chart">
+                                <div class="result-item">
+                                    <div class="result-header">
+                                        <span class="result-name">Andrés Manuel López Obrador</span>
+                                        <span class="result-percentage" id="AndresLopezPercent">0%</span>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-custom" id="AndresLopezBar" style="width: 0%"></div>
+                                    </div>
+                                    <div class="vote-count">
+                                        <span id="AndresLopezCount">0</span> votos
+                                    </div>
+                                </div>
+                                
+                                <div class="result-item">
+                                    <div class="result-header">
+                                        <span class="result-name">Enrique Peña Nieto</span>
+                                        <span class="result-percentage" id="EnriquePenaPercent">0%</span>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-custom" id="EnriquePenaBar" style="width: 0%"></div>
+                                    </div>
+                                    <div class="vote-count">
+                                        <span id="EnriquePenaCount">0</span> votos
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center mt-4">
+                                <p class="h5"><strong>Total de votos: <span id="totalVotes" class="text-primary">0</span></strong></p>
+                            </div>
+                            
+                            <div class="text-center mt-4">
+                                <button type="button" class="btn btn-custom btn-secondary-custom" id="closeResults">
+                                    <i class="bi bi-x-circle me-2"></i>
+                                    Cerrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<button class="help-button" id="helpButton" data-bs-toggle="modal" data-bs-target="#tutorialModal">
+    <i class="bi bi-question-circle"></i>
+</button>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+
+</body>
+<script src="./js/main.js"></script>
+</html>
